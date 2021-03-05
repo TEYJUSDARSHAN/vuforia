@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System;
 
 public class user_input : MonoBehaviour
@@ -50,6 +51,11 @@ public class user_input : MonoBehaviour
     {
         right_half.localScale = new Vector3(initial_scale, initial_scale, initial_scale);
         left_half.localScale = new Vector3(initial_scale, initial_scale, initial_scale);
+    }
+
+    public void back_to_main_manu()
+    {
+        SceneManager.LoadScene(0);
     }
 
     private void change_button(bool is_paused)
