@@ -18,6 +18,9 @@ using UnityEngine.Events;
 /// </summary>
 public class TrackableEventHandler : MonoBehaviour, ITrackableEventHandler
 {
+    public user_input ui;
+    public bool in_view = false;
+
     #region PROTECTED_MEMBER_VARIABLES
     public UnityEvent onTrack;
     public UnityEvent onPause;
@@ -61,12 +64,18 @@ public class TrackableEventHandler : MonoBehaviour, ITrackableEventHandler
         if (newStatus == TrackableBehaviour.Status.DETECTED ||
             newStatus == TrackableBehaviour.Status.TRACKED)
         {
+            in_view = true;
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
-            onTrack.Invoke();
+            if (!ui.is_paused)
+            {
+                onTrack.Invoke();
+            }
+            
             OnTrackingFound();
         }
         else if(newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED)
         {
+            in_view = false;
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " extended tracked");
             onPause.Invoke();
             OnTrackingLost();
@@ -74,6 +83,7 @@ public class TrackableEventHandler : MonoBehaviour, ITrackableEventHandler
         else if (previousStatus == TrackableBehaviour.Status.TRACKED &&
                  newStatus == TrackableBehaviour.Status.NO_POSE)
         {
+            in_view = false;
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
             onPause.Invoke();
             OnTrackingLost();
