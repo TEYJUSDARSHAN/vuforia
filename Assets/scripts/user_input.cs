@@ -8,9 +8,9 @@ using System;
 
 public class user_input : MonoBehaviour
 {
+    //Public variables
     public RectTransform right_half;
     public RectTransform left_half;
-    float initial_scale;
     public VideoPlayer video_player;
     public bool is_paused = false;
     public TrackableEventHandler track_handler;
@@ -18,13 +18,18 @@ public class user_input : MonoBehaviour
     public Color play_color;
     public Color pause_color;
     public Text play_pause_text;
+
+    //private variable
+    private float initial_scale;
+
     private void Start()
     {
-        initial_scale = right_half.localScale.x;
+        initial_scale = right_half.localScale.x; //storing intial scale in a variable so that it could be used in the feature
     }
 
+    //public functions/ UI functions
     public void play_pause()
-    {
+    {   //function to control the play pause activity of video
         is_paused = !is_paused;
         change_button(is_paused);
         if (track_handler.in_view)
@@ -43,23 +48,28 @@ public class user_input : MonoBehaviour
 
     public void apply_flip_filter()
     {
+        //functions which flips the video(apply filter)
         right_half.localScale = new Vector3(-initial_scale, initial_scale, initial_scale);
         left_half.localScale = new Vector3(-initial_scale, initial_scale, initial_scale);
     }
 
     public void remove_flip_filter()
     {
+        //function to remove the video (remove filter)
         right_half.localScale = new Vector3(initial_scale, initial_scale, initial_scale);
         left_half.localScale = new Vector3(initial_scale, initial_scale, initial_scale);
     }
 
     public void back_to_main_manu()
     {
+        //scene change function
         SceneManager.LoadScene(0);
     }
-
+    
+    //private functions
     private void change_button(bool is_paused)
     {
+        //change color and text of the button based on the current state
         if (is_paused)
         {
             play_pause_button.color = pause_color;
